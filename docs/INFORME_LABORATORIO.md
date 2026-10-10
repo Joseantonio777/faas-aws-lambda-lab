@@ -90,7 +90,11 @@ def lambda_handler(event, context):
 2. Al ejecutar la prueba, `ProductorFuncion` envió los datos `{'message': 'Hola desde Productor', 'value': 42}` a `ConsumidorFuncion`.
 3. `ConsumidorFuncion` procesó el valor ($42 \times 2 = 84$) y devolvió la respuesta estructurada a `ProductorFuncion`.
 
-### 4.2 Resultado Obtenido (JSON Output)
+### 4.2 Resultado Obtenido de la Ejecución Real en AWS (us-east-1)
+
+**AWS Account:** `935751870067`  
+**Estado:** Invocación Exitosa (`statusCode: 200`)  
+
 ```json
 {
   "statusCode": 200,
@@ -98,14 +102,18 @@ def lambda_handler(event, context):
 }
 ```
 
-> **Evidencia de ejecución en AWS Console:**
-> *(Adjuntar captura de pantalla de la ejecución exitosa de la consola de AWS)*
+#### Desglose de Respuestas:
+1. **Productor (`ProducerResponse`):** Confirmación de envío `"Data enviada a consumidor"`.
+2. **Consumidor (`ConsumerResponse`):**
+   - **`ConsumerMessage`:** `"Hola desde Productor"` (Mensaje recepcionado).
+   - **`ProcessedValue`:** `84` (Valor transformado: $42 \times 2 = 84$).
 
 ---
 
 ## 5. Conclusiones
 
-1. **Modularity y Desacoplamiento:** La arquitectura serverless permite desacoplar responsabilidades. Al separar la producción de datos del procesamiento de los mismos, se facilita el mantenimiento, testing y escalabilidad independiente de cada componente.
+1. **Modularidad y Desacoplamiento:** La arquitectura serverless permite desacoplar responsabilidades. Al separar la producción de datos del procesamiento de los mismos, se facilita el mantenimiento, testing y escalabilidad independiente de cada componente.
 2. **Gestión de Permisos (IAM):** Para que una función Lambda pueda invocar a otra, es indispensable contar con permisos adecuados (como `lambda:InvokeFunction`). En el entorno de AWS Academy, el rol preconfigurado `LabRole` otorga estos privilegios de forma transparente.
 3. **Invocación Sincrónica vs Asincrónica:** El parámetro `InvocationType='RequestResponse'` permite llamadas sincrónicas en tiempo real. En escenarios donde no se requiere respuesta inmediata, se puede optar por `InvocationType='Event'` (asincrónico) para liberar recursos rápidamente.
-4. **Desafíos Resueltos:** Durante la actividad se comprendió el manejo del stream de respuesta de `boto3` (`Payload.read()`) y la serialización/deserialización doble de JSON en respuestas complejas.
+4. **Desafíos Resueltos:** Durante la actividad se comprendió el manejo del stream de respuesta de `boto3` (`Payload.read()`), el ciclo de vida del estado de la función (`Pending` -> `Active`), y la serialización/deserialización doble de JSON en respuestas compuestas.
+
