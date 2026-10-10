@@ -10,8 +10,8 @@
 ## 1. Portada
 
 * **Integrantes:** 
-  * [Nombre Integrante 1]
-  * [Nombre Integrante 2]
+  José Villarroel
+   
 * **Docente:** [Nombre del Docente]
 * **Institución:** Duoc UC / AWS Academy
 * **Fecha:** 9 de octubre de 2026
